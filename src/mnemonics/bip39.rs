@@ -14,7 +14,16 @@ pub struct Bip39Mnemonic {
 }
 
 impl MnemonicFactory for Bip39Mnemonic {
-    fn generate() -> Result<Self> {
+    fn generate12() -> Result<Self> {
+        const ENTROPY_LENGTH: usize = 16;
+        // XOR an OS rng and a pseudo rng to get our entropy. Probably not necessary but doesn't hurt either.
+        let mut rng = secure_rng()?;
+        let mut entropy: [u8; ENTROPY_LENGTH] = [0; ENTROPY_LENGTH];
+        rng.fill_bytes(&mut entropy);
+        let mnemonic = _Mnemonic::from_entropy(&entropy, LANG).expect("Invalid key length");
+        Ok(Self { mnemonic })
+    }
+    fn generate24() -> Result<Self> {
         const ENTROPY_LENGTH: usize = 32;
         // XOR an OS rng and a pseudo rng to get our entropy. Probably not necessary but doesn't hurt either.
         let mut rng = secure_rng()?;

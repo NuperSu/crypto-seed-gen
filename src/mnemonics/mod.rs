@@ -2,7 +2,8 @@ use anyhow::Result;
 
 
 pub trait MnemonicFactory: Sized {
-    fn generate() -> Result<Self>;
+    fn generate12() -> Result<Self>;
+    fn generate24() -> Result<Self>;
     fn from_phrase(phrase: &str) -> Result<Self>;
 
     /// Validate a mnemonic phrase

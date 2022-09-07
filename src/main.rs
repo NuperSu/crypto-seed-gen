@@ -74,7 +74,7 @@ fn main() -> Result<()> {
         Box::new(
             mnemonic
                 .map(|m| Bip39Mnemonic::from_phrase(m))
-                .unwrap_or_else(Bip39Mnemonic::generate)?,
+                .unwrap_or_else(Bip39Mnemonic::generate12)?,
         );
 
     println!(

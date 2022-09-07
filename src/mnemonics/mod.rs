@@ -1,6 +1,5 @@
 use anyhow::Result;
 
-use crate::bip32::HDPrivKey;
 
 pub trait MnemonicFactory: Sized {
     fn generate() -> Result<Self>;
@@ -16,8 +15,6 @@ pub trait MnemonicFactory: Sized {
 pub trait Mnemonic {
     fn phrase(&self) -> &str;
     fn into_phrase(self) -> String;
-    fn to_private_key(&self, password: &str) -> Result<HDPrivKey>;
 }
 
 pub mod bip39;
-pub mod scrypt;

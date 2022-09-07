@@ -1,11 +1,9 @@
 use anyhow::Result;
-use bip39::{Language, Mnemonic as _Mnemonic, Seed as _Seed};
+use bip39::{Language, Mnemonic as _Mnemonic};
 use rand::RngCore;
 
 use super::{Mnemonic, MnemonicFactory};
-use crate::bip32::HDPrivKey;
 use crate::random::secure_rng;
-use crate::seed::Seed;
 
 const LANG: Language = Language::English;
 
@@ -45,10 +43,6 @@ impl Mnemonic for Bip39Mnemonic {
         self.mnemonic.into_phrase()
     }
 
-    fn to_private_key(&self, password: &str) -> Result<HDPrivKey> {
-        let seed = Seed::from_bytes(_Seed::new(&self.mnemonic, password).as_bytes().to_vec());
-        HDPrivKey::new(seed)
-    }
 }
 
 #[cfg(test)]

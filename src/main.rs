@@ -69,17 +69,28 @@ fn main() -> Result<()> {
                 .help("The mnemonic seed phrase to use to generate the wallet"),
         )
         .get_matches();
-    let mnemonic = args.value_of("from-mnemonic");
-    let mnemonic: Box<dyn Mnemonic> =
+    let mnemonic1 = args.value_of("from-mnemonic");
+    let mnemonic1: Box<dyn Mnemonic> =
         Box::new(
-            mnemonic
+            mnemonic1
                 .map(|m| Bip39Mnemonic::from_phrase(m))
                 .unwrap_or_else(Bip39Mnemonic::generate12)?,
         );
+    let mut mnemonic2 = Bip39Mnemonic::generate12()?;
+    let mut mnemonic3 = format!("{} {}", mnemonic1.phrase(), mnemonic2.phrase());
+    let mut mnemonic4 = format!("{} {}", mnemonic2.phrase(), mnemonic1.phrase());
+    while Bip39Mnemonic::from_phrase(mnemonic3.as_str()).is_err() || Bip39Mnemonic::from_phrase(mnemonic4.as_str()).is_err() {
+        mnemonic2 = Bip39Mnemonic::generate12()?;
+        mnemonic3 = format!("{} {}", mnemonic1.phrase(), mnemonic2.phrase());
+        mnemonic4 = format!("{} {}", mnemonic2.phrase(), mnemonic1.phrase());
+    }
 
     println!(
-        "Mnemonic: {}\nPassword: [omitted from output]",
-        mnemonic.phrase()
+        "Phrase1: {}\nPhrase2: {}\nPhrase1+Phrase2: {}\nPhrase2+Phrase1: {}",
+        mnemonic1.phrase(),
+        mnemonic2.phrase(),
+        mnemonic3,
+        mnemonic4
     );
 
     Ok(())

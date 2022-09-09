@@ -3,7 +3,7 @@ use clap::{crate_version, App, Arg};
 use thiserror::Error;
 // use trompt::Trompt;
 
-use crypto_wallet_gen::{
+use crypto_seed_gen::{
     Bip39Mnemonic, Mnemonic, MnemonicFactory,
 };
 
@@ -59,7 +59,7 @@ fn main() -> Result<()> {
     let args = App::new("Crypto Seed Generator")
         .version(crate_version!())
         .author("Anton Kosovskii <antonkosovsk@gmail.com>")
-        .about("Generates crypto currency wallets from mnemonic seeds")
+        .about("Generates 4 cool mnemonic seeds")
         .arg(
             Arg::with_name("from-mnemonic")
                 .short("m")

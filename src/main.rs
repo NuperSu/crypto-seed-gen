@@ -64,9 +64,9 @@ fn main() -> Result<()> {
             Arg::with_name("from-mnemonic")
                 .short("m")
                 .long("from-mnemonic")
-                .value_name("MNEMONIC SEED PHRASE")
+                .value_name("MNEMONIC SEED PHRASE 12 WORD LONG")
                 .case_insensitive(true)
-                .help("The mnemonic seed phrase to use to generate the wallet"),
+                .help("The mnemonic seed phrase to use to generate cool phrases"),
         )
         .get_matches();
     let mnemonic1 = args.value_of("from-mnemonic");
@@ -76,6 +76,10 @@ fn main() -> Result<()> {
                 .map(|m| Bip39Mnemonic::from_phrase(m))
                 .unwrap_or_else(Bip39Mnemonic::generate12)?,
         );
+    if mnemonic1.phrase().split(" ").count() != 12 {
+        println!("User entered mnemonic seed phrase must be 12 words long");
+        std::process::exit(1);
+    }
     let mut mnemonic2 = Bip39Mnemonic::generate12()?;
     let mut mnemonic3 = format!("{} {}", mnemonic1.phrase(), mnemonic2.phrase());
     let mut mnemonic4 = format!("{} {}", mnemonic2.phrase(), mnemonic1.phrase());

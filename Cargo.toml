@@ -1,16 +1,16 @@
 [package]
-authors = ["Sebastian Messmer"]
+authors = ["Anton Kosovskii"]
 edition = "2018"
 name = "crypto-wallet-gen"
-version = "2.3.0"
+version = "2.4.0"
 readme = "README.md"
-documentation = "https://github.com/smessmer/crypto-wallet-gen"
-homepage = "https://github.com/smessmer/crypto-wallet-gen"
-repository = "https://github.com/smessmer/crypto-wallet-gen"
+documentation = "https://github.com/NuperSu/crypto-wallet-gen"
+homepage = "https://github.com/NuperSu/crypto-wallet-gen"
+repository = "https://github.com/NuperSu/crypto-wallet-gen"
 license = "GPL-3.0-or-later"
-keywords = ["cryptocurrency", "wallet", "bitcoin", "monero", "ethereum"]
+keywords = ["cryptocurrency", "wallet", "bitcoin", "monero", "ethereum", "mnemonic", "seed"]
 categories = ["command-line-utilities", "cryptography::cryptocurrencies"]
-description = "This is a utility to generate seed phrases and to generate crypto currency wallets from a seed phrase. This way, you only need to remember one seed phrase and can generate wallets from it for multiple currencies."
+description = "This is a utility to generate cool seed phrases of 12 and 24 words."
 
 [lib]
 name = "crypto_wallet_gen"

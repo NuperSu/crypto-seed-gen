@@ -58,7 +58,7 @@ impl From<trompt::Error> for TromptError {
 fn main() -> Result<()> {
     let args = App::new("Crypto Wallet Generator")
         .version(crate_version!())
-        .author("Sebastian Messmer <mail@smessmer.de>")
+        .author("Anton Kosovskii <antonkosovsk@gmail.com>")
         .about("Generates crypto currency wallets from mnemonic seeds")
         .arg(
             Arg::with_name("from-mnemonic")

@@ -52,7 +52,12 @@ $ sudo apt install libssl-dev pkg-config gcc
 
 #### 2. Install crypto-wallet-gen
 ```
-$ cargo install crypto-wallet-gen
+$ cargo install --path .
+```
+
+#### 3. You can now run the program with
+```
+$ crypto-wallet-gen
 ```
 
 ## How keys are derived

@@ -50,7 +50,7 @@ Also make sure, you have openssl and a linker installed, for example by running 
 $ sudo apt install libssl-dev pkg-config gcc
 ```
 
-#### 2. Install crypto-wallet-gen
+#### 2. Install crypto-seed-gen
 ```
 $ cargo install --path .
 ```

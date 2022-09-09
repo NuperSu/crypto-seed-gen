@@ -371,7 +371,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "crypto-wallet-gen"
+name = "crypto-seed-gen"
 version = "2.4.0"
 dependencies = [
  "anyhow",

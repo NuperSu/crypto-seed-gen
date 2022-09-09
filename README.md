@@ -1,4 +1,4 @@
-# Crypto Wallet Generator
+# Crypto Seed Generator
 
 This is a utility to generate cool seed phrases of 12 and 24 words.
 This way, you only need to remember just two 12 words seed phrases but be able to use 4 different valid seed phrase .
@@ -13,7 +13,7 @@ crypto money happens to die. Or you carry it with you to get access to your fund
 #### 1. Generate seed phrase
 
 ```
-$ crypto-wallet-gen
+$ crypto-seed-gen
 Phrase1: tell candy asset phrase welcome property below tackle inch distance what fish
 Phrase2: space shuffle input same second ability worry allow stage utility october exact
 Phrase1+Phrase2: tell candy asset phrase welcome property below tackle inch distance what fish space shuffle input same second ability worry allow stage utility october exact
@@ -25,7 +25,7 @@ The "Phase1" and "Phrase2" are seed phrases you need to remember or print.
 #### 2. Generate a Phrase2 with the same Phrase1 seed phrase
 
 ```
-$ crypto-wallet-gen -m "tell candy asset phrase welcome property below tackle inch distance what fish" 
+$ crypto-seed-gen -m "tell candy asset phrase welcome property below tackle inch distance what fish" 
 Phrase1: tell candy asset phrase welcome property below tackle inch distance what fish
 Phrase2: tray history awesome typical dilemma adapt note rib rent harbor lonely emotion
 Phrase1+Phrase2: tell candy asset phrase welcome property below tackle inch distance what fish tray history awesome typical dilemma adapt note rib rent harbor lonely emotion
@@ -57,7 +57,7 @@ $ cargo install --path .
 
 #### 3. You can now run the program with
 ```
-$ crypto-wallet-gen
+$ crypto-seed-gen
 ```
 
 ## How keys are derived

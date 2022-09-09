@@ -56,7 +56,7 @@ impl From<trompt::Error> for TromptError {
 }
 
 fn main() -> Result<()> {
-    let args = App::new("Crypto Wallet Generator")
+    let args = App::new("Crypto Seed Generator")
         .version(crate_version!())
         .author("Anton Kosovskii <antonkosovsk@gmail.com>")
         .about("Generates crypto currency wallets from mnemonic seeds")

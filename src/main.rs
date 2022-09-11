@@ -78,11 +78,31 @@ fn main() -> Result<()> {
             Arg::with_name("from-mnemonic")
                 .short("m")
                 .long("from-mnemonic")
-                .value_name("MNEMONIC SEED PHRASE 12 WORD LONG")
+                .value_name("mnemonic")
                 .case_insensitive(true)
-                .help("The mnemonic seed phrase to use to generate cool phrases"),
+                .help("Set one of 12 word mnemonic phrases (Default: generate random)"),
+        )
+        .arg(
+            Arg::with_name("threads")
+                .short("t")
+                .long("threads")
+                .value_name("treads")
+                .case_insensitive(true)
+                .help("Set number of worker threads (Default: number of CPUs)"),
         )
         .get_matches();
+
+    extern crate num_cpus;
+    let cpus = args.value_of("threads");
+    let cpus = match cpus {
+        Some(cpus) => cpus.parse::<usize>().unwrap(),
+        None => num_cpus::get(),
+    };
+    if cpus < 1 {
+        println!("Number of threads must be greater than 0");
+        std::process::exit(1);
+    }
+
     let mnemonic1 = args.value_of("from-mnemonic");
     let mnemonic1: String = match mnemonic1 {
         Some(mnemonic1) => (Bip39Mnemonic::from_phrase(mnemonic1)?).phrase().to_string(),
@@ -93,54 +113,14 @@ fn main() -> Result<()> {
         std::process::exit(1);
     }
     let (tx, rx) = mpsc::channel();
+    for _ in 0..cpus {
         let tx_clone = tx.clone();
         let mnemonic1_clone = mnemonic1.clone();
         thread::spawn(move || {
             let mnemonic2 = fuck_you(mnemonic1_clone);
             tx_clone.send(mnemonic2).unwrap();
         });
-        let tx_clone = tx.clone();
-        let mnemonic1_clone = mnemonic1.clone();
-        thread::spawn(move || {
-            let mnemonic2 = fuck_you(mnemonic1_clone);
-            tx_clone.send(mnemonic2).unwrap();
-        });
-        let tx_clone = tx.clone();
-        let mnemonic1_clone = mnemonic1.clone();
-        thread::spawn(move || {
-            let mnemonic2 = fuck_you(mnemonic1_clone);
-            tx_clone.send(mnemonic2).unwrap();
-        });
-        let tx_clone = tx.clone();
-        let mnemonic1_clone = mnemonic1.clone();
-        thread::spawn(move || {
-            let mnemonic2 = fuck_you(mnemonic1_clone);
-            tx_clone.send(mnemonic2).unwrap();
-        });
-        let tx_clone = tx.clone();
-        let mnemonic1_clone = mnemonic1.clone();
-        thread::spawn(move || {
-            let mnemonic2 = fuck_you(mnemonic1_clone);
-            tx_clone.send(mnemonic2).unwrap();
-        });
-        let tx_clone = tx.clone();
-        let mnemonic1_clone = mnemonic1.clone();
-        thread::spawn(move || {
-            let mnemonic2 = fuck_you(mnemonic1_clone);
-            tx_clone.send(mnemonic2).unwrap();
-        });
-        let tx_clone = tx.clone();
-        let mnemonic1_clone = mnemonic1.clone();
-        thread::spawn(move || {
-            let mnemonic2 = fuck_you(mnemonic1_clone);
-            tx_clone.send(mnemonic2).unwrap();
-        });
-        let tx_clone = tx.clone();
-        let mnemonic1_clone = mnemonic1.clone();
-        thread::spawn(move || {
-            let mnemonic2 = fuck_you(mnemonic1_clone);
-            tx_clone.send(mnemonic2).unwrap();
-        });
+    }
     let mnemonic2 = rx.recv().unwrap();
     let mnemonic3 = format!("{} {}", mnemonic1, mnemonic2);
     let mnemonic4 = format!("{} {}", mnemonic2, mnemonic1);

@@ -2,7 +2,7 @@
 authors = ["Anton Kosovskii"]
 edition = "2018"
 name = "crypto-seed-gen"
-version = "2.4.0"
+version = "2.5.0"
 readme = "README.md"
 documentation = "https://github.com/NuperSu/crypto-seed-gen"
 homepage = "https://github.com/NuperSu/crypto-seed-gen"
@@ -21,6 +21,7 @@ name = "crypto-seed-gen"
 path = "src/main.rs"
 
 [dependencies]
+num_cpus = "^1.0.0"
 anyhow = "^1.0.40"
 bitcoin = "^0.26.0"
 clap = "^2.33.3"

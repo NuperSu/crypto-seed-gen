@@ -6,6 +6,8 @@ use thiserror::Error;
 use crypto_seed_gen::{
     Bip39Mnemonic, Mnemonic, MnemonicFactory,
 };
+use std::sync::mpsc;
+use std::thread;
 
 // TODO This is only needed because trompt::Error doesn't implement std::error::TromptError. https://gitlab.com/runarberg/trompt/-/issues/4
 #[derive(Debug, Error)]
@@ -55,6 +57,18 @@ impl From<trompt::Error> for TromptError {
     }
 }
 
+fn fuck_you(mnemonic1: String) -> String {
+    let mut mnemonic2 = Bip39Mnemonic::generate12().unwrap().phrase().to_string();
+    let mut mnemonic3 = format!("{} {}", mnemonic1, mnemonic2);
+    let mut mnemonic4 = format!("{} {}", mnemonic2, mnemonic1);
+    while Bip39Mnemonic::from_phrase(mnemonic3.as_str()).is_err() || Bip39Mnemonic::from_phrase(mnemonic4.as_str()).is_err() {
+        mnemonic2 = Bip39Mnemonic::generate12().unwrap().phrase().to_string();
+        mnemonic3 = format!("{} {}", mnemonic1, mnemonic2);
+        mnemonic4 = format!("{} {}", mnemonic2, mnemonic1);
+    }
+    mnemonic2
+}
+
 fn main() -> Result<()> {
     let args = App::new("Crypto Seed Generator")
         .version(crate_version!())
@@ -70,29 +84,71 @@ fn main() -> Result<()> {
         )
         .get_matches();
     let mnemonic1 = args.value_of("from-mnemonic");
-    let mnemonic1: Box<dyn Mnemonic> =
-        Box::new(
-            mnemonic1
-                .map(|m| Bip39Mnemonic::from_phrase(m))
-                .unwrap_or_else(Bip39Mnemonic::generate12)?,
-        );
-    if mnemonic1.phrase().split(" ").count() != 12 {
+    let mnemonic1: String = match mnemonic1 {
+        Some(mnemonic1) => (Bip39Mnemonic::from_phrase(mnemonic1)?).phrase().to_string(),
+        None => Bip39Mnemonic::generate12()?.phrase().to_string(),
+    };
+    if mnemonic1.split(" ").count() != 12 {
         println!("User entered mnemonic seed phrase must be 12 words long");
         std::process::exit(1);
     }
-    let mut mnemonic2 = Bip39Mnemonic::generate12()?;
-    let mut mnemonic3 = format!("{} {}", mnemonic1.phrase(), mnemonic2.phrase());
-    let mut mnemonic4 = format!("{} {}", mnemonic2.phrase(), mnemonic1.phrase());
-    while Bip39Mnemonic::from_phrase(mnemonic3.as_str()).is_err() || Bip39Mnemonic::from_phrase(mnemonic4.as_str()).is_err() {
-        mnemonic2 = Bip39Mnemonic::generate12()?;
-        mnemonic3 = format!("{} {}", mnemonic1.phrase(), mnemonic2.phrase());
-        mnemonic4 = format!("{} {}", mnemonic2.phrase(), mnemonic1.phrase());
-    }
+    let (tx, rx) = mpsc::channel();
+        let tx_clone = tx.clone();
+        let mnemonic1_clone = mnemonic1.clone();
+        thread::spawn(move || {
+            let mnemonic2 = fuck_you(mnemonic1_clone);
+            tx_clone.send(mnemonic2).unwrap();
+        });
+        let tx_clone = tx.clone();
+        let mnemonic1_clone = mnemonic1.clone();
+        thread::spawn(move || {
+            let mnemonic2 = fuck_you(mnemonic1_clone);
+            tx_clone.send(mnemonic2).unwrap();
+        });
+        let tx_clone = tx.clone();
+        let mnemonic1_clone = mnemonic1.clone();
+        thread::spawn(move || {
+            let mnemonic2 = fuck_you(mnemonic1_clone);
+            tx_clone.send(mnemonic2).unwrap();
+        });
+        let tx_clone = tx.clone();
+        let mnemonic1_clone = mnemonic1.clone();
+        thread::spawn(move || {
+            let mnemonic2 = fuck_you(mnemonic1_clone);
+            tx_clone.send(mnemonic2).unwrap();
+        });
+        let tx_clone = tx.clone();
+        let mnemonic1_clone = mnemonic1.clone();
+        thread::spawn(move || {
+            let mnemonic2 = fuck_you(mnemonic1_clone);
+            tx_clone.send(mnemonic2).unwrap();
+        });
+        let tx_clone = tx.clone();
+        let mnemonic1_clone = mnemonic1.clone();
+        thread::spawn(move || {
+            let mnemonic2 = fuck_you(mnemonic1_clone);
+            tx_clone.send(mnemonic2).unwrap();
+        });
+        let tx_clone = tx.clone();
+        let mnemonic1_clone = mnemonic1.clone();
+        thread::spawn(move || {
+            let mnemonic2 = fuck_you(mnemonic1_clone);
+            tx_clone.send(mnemonic2).unwrap();
+        });
+        let tx_clone = tx.clone();
+        let mnemonic1_clone = mnemonic1.clone();
+        thread::spawn(move || {
+            let mnemonic2 = fuck_you(mnemonic1_clone);
+            tx_clone.send(mnemonic2).unwrap();
+        });
+    let mnemonic2 = rx.recv().unwrap();
+    let mnemonic3 = format!("{} {}", mnemonic1, mnemonic2);
+    let mnemonic4 = format!("{} {}", mnemonic2, mnemonic1);
 
     println!(
         "Phrase1: {}\nPhrase2: {}\nPhrase1+Phrase2: {}\nPhrase2+Phrase1: {}",
-        mnemonic1.phrase(),
-        mnemonic2.phrase(),
+        mnemonic1,
+        mnemonic2,
         mnemonic3,
         mnemonic4
     );

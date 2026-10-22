@@ -34,6 +34,10 @@ Phrase2+Phrase1: tray history awesome typical dilemma adapt note rib rent harbor
 
 It generated such Phrase2 that all the outputed seed phrases are valid.
 
+Use `-t N` (or `--threads N`) to choose a positive number of search workers.
+The default is the number of CPUs. Workers stop when a result is found, and
+all workers finish before the program returns.
+
 ## Installation
 
 #### 1. Install cargo (package manager for the rust programming language)
@@ -49,6 +53,8 @@ Also make sure, you have openssl and a linker installed, for example by running 
 ```
 $ sudo apt install libssl-dev pkg-config gcc
 ```
+
+Rust 1.63 or newer is required.
 
 #### 2. Install crypto-seed-gen
 ```

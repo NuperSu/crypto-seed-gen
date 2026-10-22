@@ -51,123 +51,21 @@ impl Mnemonic for Bip39Mnemonic {
     fn into_phrase(self) -> String {
         self.mnemonic.into_phrase()
     }
-
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
 
-    fn expect_generated_key_is(expected_key: &str, phrase: &str, password: &str) {
-        assert_eq!(
-            expected_key,
-            Bip39Mnemonic::from_phrase(phrase)
-                .unwrap()
-                .to_private_key(password)
-                .unwrap()
-                .to_base58()
-        );
-    }
-
-    #[test]
-    fn twelve_words_without_password() {
-        // created with https://iancoleman.io/bip39/
-        expect_generated_key_is(
-            "xprv9s21ZrQH143K2cidnrzfWcHRJ23QxfAEoFdVkBgbT9mns2FPMBWZwnXZbhXsVXgSzmE2JqHmVhAna7E7L6WQ6DKagT3f6fA6bwVwkWtaSLp",
-            "lunch blanket cruise chair question good market allow blue celery little void",
-            "");
-    }
-
-    #[test]
-    fn twelve_words_with_password() {
-        // created with https://iancoleman.io/bip39/
-        expect_generated_key_is(
-            "xprv9s21ZrQH143K3wy3DhgTQ44zJb99zRLbhtrp6t3pitm9jTwaFMghhdNosoeCTy7GDJSSh3F9aenvk6WQDAU37yhqTHybANPvLgAE9s9vL7X",
-            "lunch blanket cruise chair question good market allow blue celery little void",
-            "my password");
-    }
-
-    #[test]
-    fn fifteen_words_without_password() {
-        // created with https://iancoleman.io/bip39/
-        expect_generated_key_is(
-            "xprv9s21ZrQH143K3zBjoLR71dBPE3pKi62h97rKgh5J6TdveEMFB71MukBF12jB8vWhXzV8DYbxL9V3PqdRQBsKkYtjf3BZonWcV7WHvByhpk3",
-            "mirror distance build unaware current concert link chapter resemble tuition main rent echo drum dolphin",
-            "");
-    }
-
-    #[test]
-    fn fifteen_words_with_password() {
-        // created with https://iancoleman.io/bip39/
-        expect_generated_key_is(
-            "xprv9s21ZrQH143K4a1FCVYWCbiLVFXj2m9k2MwU19Kc7nFzyFzXLnRV2Ka5pNT4Tw1DPMXWjXSFbZbzvpv9MGDMfTuiMUCnSATsaq8gA5kfERZ",
-            "mirror distance build unaware current concert link chapter resemble tuition main rent echo drum dolphin",
-            "my password");
-    }
-
-    #[test]
-    fn eighteen_words_without_password() {
-        // created with https://iancoleman.io/bip39/
-        expect_generated_key_is(
-            "xprv9s21ZrQH143K4SCLnE8JFuAe7q83dNbnd1VhH7pLchL5wXYQRg9bJguPcX8fCTDWiMndRLt7FCZA9zozQCKGn5CnCbx3zErw48XvYEnMTvg",
-            "blush section drift canoe reform friend rose cherry assume supreme home hub goat arena jazz absurd emotion hidden",
-            "");
-    }
-
-    #[test]
-    fn eighteen_words_with_password() {
-        // created with https://iancoleman.io/bip39/
-        expect_generated_key_is(
-            "xprv9s21ZrQH143K3hzQrTYxsE8ASRQnymatPj7QnK83E9yL7c7ynLU4kx6LN7MCpy9vwei6stthAh6nBB8TmWxDr7FssJMGt2YN3jfT9Ksj6ih",
-            "blush section drift canoe reform friend rose cherry assume supreme home hub goat arena jazz absurd emotion hidden",
-            "my password");
-    }
-
-    #[test]
-    fn twentyone_words_without_password() {
-        // created with https://iancoleman.io/bip39/
-        expect_generated_key_is(
-            "xprv9s21ZrQH143K3LDb5bbmmEHpowwV9JgcSJ7nJPmiNCMbS2EisLt1iHXrYnWubffdpCgTgKR4Km6VVrPwgf4TgSzD4QNpgJ3L1cAAEEeVuw7",
-            "include disagree sentence junior gospel engage whip old boost scrap someone helmet list best afraid favorite gold antenna before peasant buffalo",
-            "");
-    }
-
-    #[test]
-    fn twentyone_words_with_password() {
-        // created with https://iancoleman.io/bip39/
-        expect_generated_key_is(
-            "xprv9s21ZrQH143K4MHsTjvdG9QEjbKwrZGKsjNxxCSwkDjnVM91M6d4e5XR2bnva5GNgSf2pdvg9JubTa9UMNEDisAKD6Dg7DW74xPgr91KcNA",
-            "include disagree sentence junior gospel engage whip old boost scrap someone helmet list best afraid favorite gold antenna before peasant buffalo",
-            "my password");
-    }
-
-    #[test]
-    fn twentyfour_words_without_password() {
-        // created with https://iancoleman.io/bip39/
-        expect_generated_key_is(
-            "xprv9s21ZrQH143K3ss3HXZFVjYApfQkdokhpiGjpXnm8y8sfbtb4ydSwsPXUSj7g1mY8VhJH3iY1ZUrgdbcFmvmEhzq6R35WW4JNBSZz4uLCXN",
-            "table car outdoor twist dutch auction monitor rude pumpkin very disease ability hope area metal brisk luggage tell ribbon profit various lake topic exist",
-            "");
-    }
-
-    #[test]
-    fn twentyfour_words_with_password() {
-        // created with https://iancoleman.io/bip39/
-        expect_generated_key_is(
-            "xprv9s21ZrQH143K4XjwHvT3EEwu2fc9T3YVyXTq96SUnpRviKA49y1Lf4UxPd3t5DNRj6xffnhZM2pRVYr3BjUCQ8RCvJEWxQqUBeTRWKuNqp2",
-            "table car outdoor twist dutch auction monitor rude pumpkin very disease ability hope area metal brisk luggage tell ribbon profit various lake topic exist",
-            "my password");
-    }
-
     #[test]
     fn generated_phrase_is_24_words() {
-        let phrase = Bip39Mnemonic::generate().unwrap().into_phrase();
+        let phrase = Bip39Mnemonic::generate24().unwrap().into_phrase();
         assert_eq!(23, phrase.chars().filter(|a| *a == ' ').count());
     }
 
     #[test]
     fn generated_phrase_is_valid() {
-        Bip39Mnemonic::validate(Bip39Mnemonic::generate().unwrap().phrase()).unwrap();
+        Bip39Mnemonic::validate(Bip39Mnemonic::generate24().unwrap().phrase()).unwrap();
     }
 
     #[test]

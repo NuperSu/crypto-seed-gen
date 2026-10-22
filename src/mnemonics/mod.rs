@@ -1,6 +1,5 @@
 use anyhow::Result;
 
-
 pub trait MnemonicFactory: Sized {
     fn generate12() -> Result<Self>;
     fn generate24() -> Result<Self>;
